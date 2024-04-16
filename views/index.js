@@ -3,6 +3,8 @@
  * Copyright 2019 Google LLC. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
+
+
 let map;
 const NEW_ZEALAND_BOUNDS = {
   north: 50.59024,
@@ -28,14 +30,12 @@ function initMap() {
    console.log("Here", location.fi.x, location.fi.y)
   });
   const input = document.getElementById("pac-input");
-  map.className += " page-load-hover";
+  input.className += " page-load-hover";
   input.removeAttribute('readonly'); 
-  input.value="E"
   const searchBox = new google.maps.places.SearchBox(input);
   console.log(searchBox)
 
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-  console.log("Here")
+  // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
   // Bias the SearchBox results towards current map's viewport.
   map.addListener("bounds_changed", () => {
     searchBox.setBounds(map.getBounds());
@@ -76,7 +76,6 @@ function initMap() {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(25, 25),
       };
-
       // Create a marker for each place.
       markers.push(
         new google.maps.Marker({
@@ -100,14 +99,34 @@ function initMap() {
 
 window.initMap = initMap;
 
-function updateScreenReaderMessage(message) {
-  var screenReaderMessage = document.getElementById('screen-reader-message');
-  screenReaderMessage.textContent = message;
+function srSpeak(text, priority) {
+  var el = document.createElement("div");
+  var id = "speak-" + Date.now();
+  el.setAttribute("id", id);
+  el.setAttribute("aria-live", priority || "polite");
+  el.classList.add("visually-hidden");
+  document.body.appendChild(el);
+
+  window.setTimeout(function () {
+    document.getElementById(id).innerHTML = text;
+  }, 100);
+
+  window.setTimeout(function () {
+      document.body.removeChild(document.getElementById(id));
+  }, 1000);
 }
 
 // Example usage
-window.onload = function() {
-  // Assume some event triggers the message to be updated
-  var message = "This is a message for the screen reader";
-  updateScreenReaderMessage(message);
-};
+// window.onload = function() {
+//   // Assume some event triggers the message to be updated
+//   window.setTimeout(function () {
+//     const message = "This is a message for the screen reader";
+//     srSpeak(message, "assertive");
+//   }, 3000);
+  
+// };
+window.setTimeout(function () {
+  const message = "This is a message for the screen reader";
+  srSpeak(message);
+}, 3000);
+

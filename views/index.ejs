@@ -20,19 +20,11 @@
         placeholder=""
         aria-label="Write something here to select a US location to get weather from."
       />
-      <div role="status" aria-live="assertive">
+      <!-- <div role="status" aria-live="assertive">
         <p id="screen-reader-message"></p>
-      </div>
-      
-    <!-- 
-      The `defer` attribute causes the callback to execute after the full HTML
-      document has been parsed. For non-blocking uses, avoiding race conditions,
-      and consistent behavior across browsers, consider loading using Promises.
-      See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
-      for more information.
-      -->
+      </div> -->
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChlPrBnimo4-CoEawG2S6UanrEXY-Y4BY&callback=initMap&libraries=places&v=weekly"
+      src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&callback=initMap&libraries=places&v=weekly"
       defer
     ></script>
     <script src="./index.js"></script>
