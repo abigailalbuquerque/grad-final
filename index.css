@@ -22,6 +22,37 @@ body {
   padding: 0;
 }
 
+.transition.slide{
+  position: fixed;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 100%;
+  z-index: 101;
+  background-color: gray;
+  transition: .5s ease-out;
+}
+
+.transition.slide.is-active{
+  top:0;
+}
+
+.transition.fade{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 101;
+  background-color: gray;
+  opacity: 0;
+  transition: .5s ease-out;
+}
+
+.transition.fade.is-active{
+  opacity:1;
+}
+
 /* Add a black background color to the top navigation bar */
 .topnav {
   overflow: hidden;

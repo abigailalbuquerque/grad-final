@@ -12,24 +12,23 @@
     <link rel="stylesheet" href="index.css">
   </head>
   <body>
+    <div class = "transition slide"></div>
     <div class="topnav">
-      <a class="active" href="#home">Home</a>
       <a href="#about">About</a>
       <input type="text" placeholder="Search..">
     </div> 
     <div id="map"></div>
-
-    <!-- 
-      The `defer` attribute causes the callback to execute after the full HTML
-      document has been parsed. For non-blocking uses, avoiding race conditions,
-      and consistent behavior across browsers, consider loading using Promises.
-      See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
-      for more information.
-      -->
-    <script async="false"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDxuh0_jROhrzWl6HCvzX4qRnFoANdc_s&callback=initMap&v=weekly"
-      defer
-    ></script>
-    <script src="./index.js"></script>
+      <!-- 
+        The `defer` attribute causes the callback to execute after the full HTML
+        document has been parsed. For non-blocking uses, avoiding race conditions,
+        and consistent behavior across browsers, consider loading using Promises.
+        See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
+        for more information.
+        -->
+      <script async="false"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDxuh0_jROhrzWl6HCvzX4qRnFoANdc_s&callback=initMap&v=weekly"
+        defer
+      ></script>
+      <script src="./index.js"></script>
   </body>
 </html>

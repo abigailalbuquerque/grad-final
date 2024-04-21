@@ -5,6 +5,9 @@
  */
 //const {Polyline} = await google.maps.importLibrary("maps")
 
+
+
+
 let map;
 const NEW_ZEALAND_BOUNDS = {
   north: 50.59024,
@@ -22,6 +25,8 @@ function play( audio_path, time_in_milisec){
   beep.play();
   setTimeout(() => { beep.pause(); }, time_in_milisec);
 }
+
+
 
 
 
@@ -90,15 +95,25 @@ function initMap() {
     map.setZoom(10);
     map.panTo(newMarker.position);
 
-    play('./wind.mp3', 10000);
-    //audio.play();
+    //play('./sounds/wind.mp3', 10000);
     
+    //play('./sounds/birds.mp3', 4000);
+    //play('./sounds/rain-and-thunder.mp3', 5000);
+
+    const transition_el = document.querySelector('.transition');
+    //transition_el.classList.add('is-active');
+    setTimeout(() => {
+        transition_el.classList.add('is-active');
+        //play('./sounds/windhowl.wav', 5000)
+    }, 500);
+    location.href = './locationPage.html'
+    /*
     coords = [
       { lat: lat + 1, lng: lng + 1 },
       { lat: lat - 1, lng: lng - 1 },
       { lat: lat - 1, lng: lng + 1 },
       { lat: lat + 1, lng: lng - 1 },
-    ];
+    ];*/
     //addPolygon(coords, map);
 });
 
