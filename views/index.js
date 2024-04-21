@@ -7,7 +7,6 @@
 
 
 
-
 let map;
 const NEW_ZEALAND_BOUNDS = {
   north: 50.59024,
@@ -106,7 +105,12 @@ function initMap() {
         transition_el.classList.add('is-active');
         //play('./sounds/windhowl.wav', 5000)
     }, 500);
-    location.href = './locationPage.html'
+
+    const params = new URLSearchParams({
+      lat: lat,
+      lng: lng
+    });
+    location.href = './locationPage.html?' + params.toString();
     /*
     coords = [
       { lat: lat + 1, lng: lng + 1 },

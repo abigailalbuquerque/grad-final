@@ -17,7 +17,7 @@ window.onload = () => {
     
 }
 
-document.getElementById("back").onclick = function () {
+document.getElementById('back').onclick = function () {
     console.log("clicked");
     location.href = "./index.html";
 };
