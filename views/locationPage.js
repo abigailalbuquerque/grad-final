@@ -14,6 +14,9 @@ window.onload = () => {
     transition_el.classList.remove("is-active");
     //play2('./sounds/windhowl.wav');//doesn't allow playing it onload
   }, 500);
+  setTimeout(() => {
+    playMessage("To interact with this app, keep pressing tab to cycle through buttons. A summary will play soon.")
+  }, 3000);
 };
 
 document.getElementById("back").onclick = function () {
@@ -482,5 +485,23 @@ function animationPlay(container,
       .text(title);
   }
 
+function playMessage(message, priority="polite") {
+  var el = document.createElement("div");
+  var id = "speak-" + Date.now();
+  el.setAttribute("id", id);
+  el.setAttribute("aria-live", priority);
+  el.classList.add("visually-hidden");
+  el.style.fontSize = "0px";
+  document.body.appendChild(el);
 
+  window.setTimeout(function () {
+    document.getElementById(id).innerHTML = message;
+  }, 100);
+
+  window.setTimeout(function () {
+      document.body.removeChild(document.getElementById(id));
+  }, 1000);
+  
+  
+}
 useLatLong();
