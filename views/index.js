@@ -21,6 +21,26 @@ function play( audio_path, time_in_milisec){
   setTimeout(() => { beep.pause(); }, time_in_milisec);
 }
 
+//get location name from coordinates
+/*function getLocationName(lat, lng){
+  //console.log("recieved latlng", lat, lng);
+  //return new Promise(
+    fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng +"&key=AIzaSyB8bxQOIFjitYbXXjlCMScqdaynYOCfzsY")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        //console.log("response")
+        //console.log(response.json());
+        return response.json();
+      }).then((data) => {
+        console.log("data");
+        console.log(data.results[0].address_components[3].long_name);
+        return data.results[0].address_components[3].long_name;
+    })
+  //)
+}8*/
+
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: AUCKLAND,
@@ -49,7 +69,9 @@ function initMap() {
     }
   };
 
-  google.maps.event.addListener(map, "click", (event) => {
+  google.maps.event.addListener(map, "click", (event) => onclickdo(event));
+
+  async function onclickdo(event){
     console.log(event.latLng)
     var newMarker = addMarker(event.latLng, map);
     //convert to json
@@ -59,35 +81,39 @@ function initMap() {
     console.log(lat);
     console.log(lng);
 
+    //zoom and pan
     map.setZoom(10);
     map.panTo(newMarker.position);
 
-    //play('./sounds/wind.mp3', 10000);
-    
-    //play('./sounds/birds.mp3', 4000);
-    //play('./sounds/rain-and-thunder.mp3', 5000);
+    //get location from coordinates
+    fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng +"&key=AIzaSyB8bxQOIFjitYbXXjlCMScqdaynYOCfzsY")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      }).then((data) => {
+        let city = data.results[0].address_components[3].long_name;
+        console.log(city);
 
-    const transition_el = document.querySelector('.transition');
-    //transition_el.classList.add('is-active');
-    setTimeout(() => {
-        transition_el.classList.add('is-active');
-        //play('./sounds/windhowl.wav', 5000)
-    }, 500);
+        //transition
+        const transition_el = document.querySelector('.transition');
+        setTimeout(() => {
+            transition_el.classList.add('is-active');
+        }, 500);
 
-    const params = new URLSearchParams({
-      lat: lat,
-      lng: lng
-    });
-    location.href = './locationPage.html?' + params.toString();
+        //send as query string
+        const params = new URLSearchParams({
+          lat: lat,
+          lng: lng,
+          city: city
+        });
+        //go to weather page
+        location.href = './locationPage.html?' + params.toString();
+      })
     
-    coords = [
-      { lat: lat + 1, lng: lng + 1 },
-      { lat: lat - 1, lng: lng - 1 },
-      { lat: lat - 1, lng: lng + 1 },
-      { lat: lat + 1, lng: lng - 1 },
-    ];
-  addPolygon(coords, map);
-  });
+    
+  }
 
   const input = document.getElementById("pac-input");
   input.className += " page-load-hover";
