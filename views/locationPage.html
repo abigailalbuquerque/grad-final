@@ -7,31 +7,53 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
   <body>
-    <div class = "transition fade is-active"></div>
-    <button id='back' onclick="location.href = './index.html'">Back</button>
+    <div class="transition fade is-active"></div>
+    <button
+      class="back-button"
+      id="back"
+      onclick="location.href = './index.html'"
+    >
+      Back
+    </button>
     <div class="container left">
       <div class="weather-box">
         <h2>Current Weather</h2>
-        <p>Temperature: 25°C</p>
-        <p>Condition: Sunny</p>
-        <p>Wind Speed: 10 km/h</p>
+        <div class="column">
+          <p id="current-temp"></p>
+          <div>
+            <p id="temps"></p>
+          </div>
+          <p id="condition"></p>
+          <p id="wind-speed"></p>
+          <p id="wind-direction"></p>
+        </div>
+        <div class="column">
+          <div class="weather-image" id="weather-image"></div>
+        </div>
       </div>
-      <div class="weather-alert">
+      <div class="weather-alert" id="weather-alert">
         <h2>Weather Alert</h2>
-        <p>Alert: Heatwave Warning</p>
-        <p>Stay hydrated and avoid prolonged exposure to sunlight.</p>
+        <div class="column"></div>
+        <div class="column"></div>
       </div>
       <div class="summary">
         <h2>Summary</h2>
-        <p>Today's weather will be cloudy with a high of 5 and a low of 1. Be prepared for rain.</p>
+        <div class="column">
+          <p id="summary"></p>
+        </div>
+        <div class="column"></div>
       </div>
     </div>
-    <div class="container right graph-scrollable" id="graphContainer">
-        <div class="buttons">
-            <button onclick="scrollRight()">Next Day</button>
-            <button onclick="scrollLeft()">Previous Day</button>      
-        </div>
+    <div class="container right" id="graphContainer">
+      <div class="buttons">
+        <button class="other-button" onclick="scrollRight()">Next Day</button>
+        <button class="other-button" onclick="scrollBack()">
+          Previous Day
+        </button>
+      </div>
     </div>
-    <script src="./locationPage.js"></script>>
+    <button class="other-button" onclick="tableView()">Table View</button>
+    <button class="other-button" onclick="animation()">Play Animation</button>
+    <script src="./locationPage.js"></script>
   </body>
 </html>

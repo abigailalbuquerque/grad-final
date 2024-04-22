@@ -1,68 +1,150 @@
-.container {
-    height: 100%;
-    width: 40%;
-    position: fixed;
-    top: 100px;
-    padding-left: 20px;
-}
-  
-.weather-box {
-    width: 100%;
-    background-color: lightgray;
-    padding: 20px;
-    background-color: none;
-    border-radius: 10px;
-    margin-bottom: 30px;
+body {
+  background-color: #e9e9e9;
+  padding: 1%;
 }
 
-.summary{
-    width: 100%;
-    background-color: lightgray;
-    padding: 20px;
-    background-color: none;
-    border-radius: 10px;
-    margin-bottom: 30px;
+.container {
+  background-color: #fafafa;
+  height: 85%;
+  width: 40%;
+  position: fixed;
+  top: 10%;
+  bottom: 20%;
+  padding-left: 1%;
+  border: black;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+.weather-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 90%;
+  height: 30%;
+  background-color: lightgray;
+  padding: 20px;
+  background-color: none;
+  border-radius: 10px;
+  margin-top: 5%;
+  margin-bottom: 30px;
+}
+
+.weather-alert h2, .weather-box h2, .summary h2{
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+#current-temp {
+  font-size: 5em;
+  margin-right: 20px;
+  margin-bottom: -10%;
+  margin-top: -10%;
+}
+
+#condition {
+  font-size: 2em;
+  margin-top: -5%;
+  margin-bottom: -5%;
+}
+
+#wind-speed,
+#wind-direction {
+  font-size: 1.4em;
+  margin-bottom: -5%;
+}
+
+.summary {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  height: 20%;
+  align-items: center;
+  background-color: lightgray;
+  padding: 20px;
+  background-color: none;
+  border-radius: 10px;
+  margin-bottom: 30px;
 }
 
 .left {
-    left: 10%;
+  left: 1.5%;
 }
-  
+
 .right {
-    right: 10%;
+  right: 15%;
 }
-  
+
+.column {
+  flex: 50%;
+  align-content: space-around;
+  vertical-align: middle;
+}
+
 .weather-alert {
-    width: 100%;
-    background-color: #ffd700;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 90%;
+  height: 20%;
+  background-color: #ffd700;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
 }
 
 #graphContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.graph-scrollable {
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .graph {
-    display: inline-block;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-width: 1px;
-    border-color: lightgray;
-    border-style: solid;
-    border-radius: 10px;
+  display: inline-block;
+  padding: 2%;
+  height: 30%;
+  margin-bottom: 1%;
+  border-width: 1px;
+  border-color: lightgray;
+  border-style: solid;
+  border-radius: 10px;
+  width: 80%;
 }
 
 .buttons {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.back-button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.other-button {
+  margin-top: 1%;
+  background-color: #1a1c70;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #45a049;
 }
