@@ -8,18 +8,15 @@ function play(audio_path, time_in_milisec) {
 }
 
 window.onload = () => {
-  console.log("new page load");
   const transition_el = document.querySelector(".transition");
   transition_el.classList.remove("is-active");
   setTimeout(() => {
-    console.log("remove");
     transition_el.classList.remove("is-active");
     //play2('./sounds/windhowl.wav');//doesn't allow playing it onload
   }, 500);
 };
 
 document.getElementById("back").onclick = function () {
-  console.log("clicked");
   location.href = "./index.html";
 };
 
@@ -32,7 +29,6 @@ let currentDayIndex = 0;
 
 function getWeatherGrid(lat, lng) {
   const apiUrl = "https://api.weather.gov/points/" + lat + "," + lng;
-  console.log(apiUrl);
   fetch(apiUrl)
     .then((response) => {
       if (!response.ok) {
@@ -112,10 +108,6 @@ function getWeatherData(url) {
           break;
         }
       }
-
-      console.log("High temperature:", highTemp);
-      console.log("Low temperature:", lowTemp);
-
       document.getElementById("temps").innerHTML =
         "High: " + highTemp + "°F &nbsp;&nbsp;&nbsp;" + "   Low: " + lowTemp + "°F";
     })
@@ -268,7 +260,6 @@ function createChart(
 }
 
 function scrollRight() {
-  console.log("clicked next");
   if (currentDayIndex + 24 < weather.length) {
     currentDayIndex += 24;
     renderWeatherCharts(weather);
@@ -276,25 +267,33 @@ function scrollRight() {
 }
 
 function scrollBack() {
-  console.log("clicked back");
   if (currentDayIndex > 0) {
     currentDayIndex -= 24;
     renderWeatherCharts(weather);
   }
 }
 
-
 function useLatLong() {
   const searchParams = new URLSearchParams(window.location.search);
 
-  let lat, lng;
+  let lat, lng, city, state;
   for (const [key, value] of searchParams) {
+    console.log(key)
     if (key === "lat") {
       lat = value;
     } else if (key === "lng") {
       lng = value;
     }
+    else if (key === "city"){
+      city = value;
+    }
+    else if (key === "state"){
+      state = value;
+    }
+    document.getElementById("city").innerHTML =
+    city +", " + state;
   }
+
   getWeatherGrid(lat, lng);
 }
 

@@ -94,7 +94,7 @@ function initMap() {
         return response.json();
       }).then((data) => {
         let city = data.results[0].address_components[3].long_name;
-        console.log(city);
+        let state = data.results[0].address_components[4].long_name;
 
         //transition
         const transition_el = document.querySelector('.transition');
@@ -106,7 +106,8 @@ function initMap() {
         const params = new URLSearchParams({
           lat: lat,
           lng: lng,
-          city: city
+          city: city,
+          state: state
         });
         //go to weather page
         location.href = './locationPage.html?' + params.toString();

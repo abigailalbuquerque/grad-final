@@ -82,6 +82,15 @@ body {
   vertical-align: middle;
 }
 
+.topnav h1 {
+  margin: 0; /* Removes default margin from h1 to avoid unnecessary spacing */
+  white-space: nowrap; /* Keeps the title in a single line */
+  flex-grow: 1; /* Allows the title to fill the space between buttons */
+  text-align: center; /* Centers the title text */
+  margin-top:-2.5%;
+}
+
+
 .weather-alert {
   display: flex;
   flex-direction: row;
