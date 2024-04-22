@@ -1,13 +1,37 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="index.css">
-    </head>
-    <body>
-        <div class = "transition fade is-active"></div>
-        <div id ="main">
-            Placeholder
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="locationPage.css" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <div class = "transition fade is-active"></div>
+    <button id='back' onclick="location.href = './index.html'">Back</button>
+    <div class="container left">
+      <div class="weather-box">
+        <h2>Current Weather</h2>
+        <p>Temperature: 25°C</p>
+        <p>Condition: Sunny</p>
+        <p>Wind Speed: 10 km/h</p>
+      </div>
+      <div class="weather-alert">
+        <h2>Weather Alert</h2>
+        <p>Alert: Heatwave Warning</p>
+        <p>Stay hydrated and avoid prolonged exposure to sunlight.</p>
+      </div>
+      <div class="summary">
+        <h2>Summary</h2>
+        <p>Today's weather will be cloudy with a high of 5 and a low of 1. Be prepared for rain.</p>
+      </div>
+    </div>
+    <div class="container right graph-scrollable" id="graphContainer">
+        <div class="buttons">
+            <button onclick="scrollRight()">Next Day</button>
+            <button onclick="scrollLeft()">Previous Day</button>      
         </div>
-        <button id='back' onclick="location.href = './index.html'">Back</button>
-        <script src="./locationPage.js"></script>
-    </body>
+    </div>
+    <script src="./locationPage.js"></script>>
+  </body>
 </html>

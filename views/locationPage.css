@@ -1,0 +1,68 @@
+.container {
+    height: 100%;
+    width: 40%;
+    position: fixed;
+    top: 100px;
+    padding-left: 20px;
+}
+  
+.weather-box {
+    width: 100%;
+    background-color: lightgray;
+    padding: 20px;
+    background-color: none;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.summary{
+    width: 100%;
+    background-color: lightgray;
+    padding: 20px;
+    background-color: none;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.left {
+    left: 10%;
+}
+  
+.right {
+    right: 10%;
+}
+  
+.weather-alert {
+    width: 100%;
+    background-color: #ffd700;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+#graphContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.graph-scrollable {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.graph {
+    display: inline-block;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-width: 1px;
+    border-color: lightgray;
+    border-style: solid;
+    border-radius: 10px;
+}
+
+.buttons {
+    margin-bottom: 10px;
+}
