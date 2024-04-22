@@ -1,40 +1,246 @@
-<!doctype html>
-<!--
- @license
- Copyright 2019 Google LLC. All Rights Reserved.
- SPDX-License-Identifier: Apache-2.0
--->
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Map Bounds Restriction</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <!-- jsFiddle will insert css and js -->
-    <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="weather_page.css" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
   <body>
-    <div id="map"></div>
-    <input
-        id="pac-input"
-        class="controls"
-        type="text"
-        placeholder=""
-        aria-label="Write something here to select a US location to get weather from."
-      />
-      <div role="status" aria-live="assertive">
-        <p id="screen-reader-message"></p>
+    <div class="container left">
+      <div class="weather-box">
+        <h2>Current Weather</h2>
+        <p>Temperature: 25°C</p>
+        <p>Condition: Sunny</p>
+        <p>Wind Speed: 10 km/h</p>
       </div>
-      
-    <!-- 
-      The `defer` attribute causes the callback to execute after the full HTML
-      document has been parsed. For non-blocking uses, avoiding race conditions,
-      and consistent behavior across browsers, consider loading using Promises.
-      See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
-      for more information.
-      -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChlPrBnimo4-CoEawG2S6UanrEXY-Y4BY&callback=initMap&libraries=places&v=weekly"
-      defer
-    ></script>
-    <script src="./index.js"></script>
+      <div class="weather-alert">
+        <h2>Weather Alert</h2>
+        <p>Alert: Heatwave Warning</p>
+        <p>Stay hydrated and avoid prolonged exposure to sunlight.</p>
+      </div>
+      <div class="summary">
+        <h2>Summary</h2>
+        <p>Today's weather will be cloudy with a high of 5 and a low of 1. Be prepared for rain.</p>
+      </div>
+    </div>
+    <div class="container right graph-scrollable" id="graphContainer">
+        <div class="buttons">
+            <button onclick="scrollRight()">Next Day</button>
+            <button onclick="scrollLeft()">Previous Day</button>      
+        </div>
+    </div>
+    
+    <script>
+      var weather = [];
+      let currentDayIndex = 0;
+
+      function getWeatherGrid(lat, lng) {
+        const apiUrl = "https://api.weather.gov/points/" + lat + "," + lng;
+        console.log(apiUrl);
+        fetch(apiUrl)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            getWeatherData(data.properties.forecastHourly);
+            return data.properties.forecastHourly;
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      function getWeatherData(url) {
+        fetch(url)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            for (let i = 0; i < 72; i++) {
+              weather.push(data.properties.periods[i]);
+            }
+            console.log(weather);
+            renderWeatherCharts(weather);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      function renderWeatherCharts(weatherData) {
+        const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+        const width = 400 - margin.left - margin.right;
+        const height = 200 - margin.top - margin.bottom;
+
+        const container = d3.select("#graphContainer");
+        container.selectAll(".graph").remove();
+        const parseTime = d3.timeParse("%Y-%m-%dT%H:%M:%S%Z");
+        const formatTime = d3.timeFormat("%H:%M");
+        const timestamps = weatherData.map((d) => parseTime(d.startTime));
+        const temperatures = weatherData.map((d) => d.temperature);
+        const windSpeeds = weatherData.map((d) => {
+          let speed = d.windSpeed.match(/\d+/);
+          return speed ? +speed[0] : 0;
+        });
+
+        const precipitationChances = weatherData.map(
+          (d) => +d.probabilityOfPrecipitation
+        );
+
+        createChart(
+          container,
+          "Temperature Chart",
+          temperatures,
+          timestamps,
+          formatTime,
+          height,
+          width,
+          margin,
+          "Temperature (°F)"
+        );
+        createChart(
+          container,
+          "Wind Speed Chart",
+          windSpeeds,
+          timestamps,
+          formatTime,
+          height,
+          width,
+          margin,
+          "Wind Speed (km/h)"
+        );
+        createChart(
+          container,
+          "Precipitation Chart",
+          precipitationChances,
+          timestamps,
+          formatTime,
+          height,
+          width,
+          margin,
+          "Chance of Precipitation (%)"
+        );
+      }
+
+      function createChart(
+        container,
+        title,
+        data,
+        timestamps,
+        formatTime,
+        height,
+        width,
+        margin,
+        yAxisLabel
+      ) {
+        const graphContainer = container
+          .append("div")
+          .attr("class", "graph")
+          .style("margin-bottom", "20px");
+
+        const svg = graphContainer
+          .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        const x = d3
+          .scaleTime()
+          .domain(d3.extent(timestamps))
+          .range([0, width]);
+
+        const y = d3
+          .scaleLinear()
+          .domain([d3.min(data), d3.max(data)])
+          .range([height, 0]);
+
+        const line = d3
+          .line()
+          .x((d, i) => x(timestamps[i]))
+          .y((d) => y(d));
+
+        svg
+          .append("path")
+          .datum(data)
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", 1.5)
+          .attr("d", line);
+
+        svg
+          .append("g")
+          .attr("transform", `translate(0,${height})`)
+          .call(d3.axisBottom(x).tickFormat(formatTime));
+
+        svg
+          .append("g")
+          .call(d3.axisLeft(y))
+          .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", "0.71em")
+          .attr("fill", "#000");
+
+        svg
+          .append("text")
+          .attr(
+            "transform",
+            `translate(${width / 2},${height + margin.top + 10})`
+          )
+          .style("text-anchor", "middle")
+          .text("Time");
+
+        svg
+          .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 0 - margin.left)
+          .attr("x", 0 - height / 2)
+          .attr("dy", "1em")
+          .style("text-anchor", "middle")
+          .text(yAxisLabel);
+
+        svg
+          .append("text")
+          .attr("x", width / 2)
+          .attr("y", 0 - margin.top / 2)
+          .attr("text-anchor", "middle")
+          .style("font-size", "16px")
+          .text(title);
+      }
+
+      function getWeatherGrid(lat, lng) {
+        const apiUrl = "https://api.weather.gov/points/" + lat + "," + lng;
+        fetch(apiUrl)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            getWeatherData(data.properties.forecastHourly);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      function testCalls() {
+        var lat = "42.2799";
+        var lng = "-71.8216";
+
+        getWeatherGrid(lat, lng);
+      }
+
+      testCalls();
+    </script>
   </body>
 </html>
