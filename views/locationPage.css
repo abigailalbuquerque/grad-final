@@ -82,12 +82,15 @@ body {
   vertical-align: middle;
 }
 
+.topnav{
+  display: flex;
+}
+
 .topnav h1 {
-  margin: 0; /* Removes default margin from h1 to avoid unnecessary spacing */
-  white-space: nowrap; /* Keeps the title in a single line */
-  flex-grow: 1; /* Allows the title to fill the space between buttons */
-  text-align: center; /* Centers the title text */
-  margin-top:-2.5%;
+  margin: 0;
+  flex-grow: 1;
+  margin-left: -10%;
+  text-align: center;
 }
 
 
@@ -129,7 +132,7 @@ body {
   background-color: #4caf50;
   border: none;
   color: white;
-  padding: 10px 20px;
+  padding: 0.5% 0.5% 0.5% 0.5%;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -152,6 +155,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-right:5px;
 }
 
 .back-button:hover {
