@@ -380,8 +380,8 @@ function animationPlay(container,
   yAxisLabel,
   rain,
   wind){
-    const rainSound = new Audio('../sounds/rain.mp3');
-    const windSounds = new Audio('../sounds/wind.mp3');
+    const rainSound = new Audio('../sounds/rain.wav');
+    const windSounds = new Audio('../sounds/wind.wav');
 
     const graphContainer = container
       .append("div")
@@ -429,7 +429,10 @@ function animationPlay(container,
       data.forEach((d, i) => {
         if (d > 0) {
           rainSound.volume = d / 100;
-          rainSound.play();
+          console.log("rain volume:", rainSound.volume)
+          rainSound.play().catch((e)=>{
+            console.log("rain error: ", e);
+         })
         }
       });
     }
@@ -437,7 +440,9 @@ function animationPlay(container,
       data.forEach((d, i) => {
         if (d > 0) {
           windSounds.volume = d / 100;
-          windSounds.play();
+          windSounds.play().catch((e)=>{
+            console.log("wind error: ", e);
+         })
         }
       });
     }

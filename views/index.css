@@ -64,7 +64,7 @@ h1, h2{
 /* Add a black background color to the top navigation bar */
 .searchbar {
   overflow: hidden;
-  background-color: darkblue;
+  background-color: #1a1c70;
 }
 
 /* Center search bar */
