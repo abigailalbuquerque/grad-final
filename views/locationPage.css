@@ -31,6 +31,12 @@ body {
   border-radius: 5px;
 }
 
+.instructions h3{
+  margin-right: 20px;
+  text-align:center;
+}
+
+
 .weather-box {
   display: flex;
   flex-direction: row;
@@ -185,6 +191,12 @@ body {
   transition: background-color 0.3s;
   margin-right:5px;
 }
+
+.anim-table-button{
+  margin-left: 11%;
+  margin-top: 1%;
+}
+
 
 .back-button:hover {
   background-color: #45a049;

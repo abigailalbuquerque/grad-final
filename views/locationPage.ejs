@@ -16,12 +16,17 @@
       onclick="location.href = './index.html'">
       Back
     </button>
-    <button class="other-button" onclick="changeView()" id="viewButton">Table View</button>
-    <button class="other-button" onclick="animation()">Play Animation</button>
+    <div class="anim-table-button">
+      <button class="other-button" onclick="changeView()" id="viewButton">Table View</button>
+      <button class="other-button" onclick="animation()">Play Animation</button>
+    </div>
     <h1 id="city"></h1>
     </div>
     <div class="instructions">
-      Click the back button to go back. Click the table view to show the table of data. Click on play animation to play an animation of the graphs on the right and play sound.
+      <h3>
+        Click the back button to go back. Click the table view to show the table of data, or click on the "All", "Temperature", "Probability of Precipitation", and "Windspeed and Direction" buttons to show only those respective columns. Click on play animation to play an animation of the graphs on the right and play sound.
+        In the right container, click on "Previous Day" and "Next Day" to toggle between days.
+      </h3>
     </div>
     <div class="container left">
       <div id = "weather-data-table" style.display="none">
