@@ -550,6 +550,7 @@ function changeView(){
 
 function changeTableSelect(sel) {
   let text = ""
+  let screen_text = []
   if(sel == "all"){
       text = "<table border='1'><tr>"
       text += "<th>Time</th>"
@@ -567,6 +568,7 @@ function changeTableSelect(sel) {
           text += "<td>" + weather[x].windSpeed + "</td>"
           text += "<td>" + weather[x].windDirection + "</td>"
           text += "</tr>"
+          screen_text.push({"date": date, "time": time, "temperature": weather[x].temperature, "probability of precipitation": weather[x].probabilityOfPrecipitation.value, "wind speed": weather[x].windSpeed, "wind direction": weather[x].windDirection})
       }
       text += "</table>"
   }
@@ -581,6 +583,7 @@ function changeTableSelect(sel) {
           text += "<td>" + date + " " + time + "</td>"
           text += "<td>" + weather[x].temperature + "</td>"
           text += "</tr>"
+          screen_text.push({"date": date, "time": time, "temperature": weather[x].temperature})
       }
       text += "</table>"
   }
@@ -595,6 +598,7 @@ function changeTableSelect(sel) {
           text += "<td>" + date + " " + time + "</td>"
           text += "<td>" + weather[x].probabilityOfPrecipitation.value + "</td>"
           text += "</tr>"
+          screen_text.push({"date": date, "time": time, "probability of precipitation": weather[x].probabilityOfPrecipitation.value})
       }
       text += "</table>"
 
@@ -612,12 +616,63 @@ function changeTableSelect(sel) {
           text += "<td>" + weather[x].windSpeed + "</td>"
           text += "<td>" + weather[x].windDirection + "</td>"
           text += "</tr>"
+          screen_text.push({"date": date, "time": time, "wind speed": weather[x].windSpeed, "wind direction": weather[x].windDirection})
       }
       text += "</table>"
       
   }
   document.getElementById("data-table").innerHTML = text;
+  tableScreenReader(screen_text)
   
 }
 
+function tableScreenReader(data){
+  let screen_text = "You are now in the table view page. In a bit, information will be said about the selected weather location. To change how much information is viewed, navigate via tab to the mode buttons to select what info you want. "
+  let currentDate = undefined;
+  for(let point of data){
+    const date = point['date']
+    const time = point['time'].split(":")[0]
+    if (date !== currentDate) {
+      currentDate = date
+      screen_text += "Next, on " + date + " at " + time + " "
+    }
+    else {
+      screen_text += "Next, at " + time + " "
+    }
+    delete point['date']
+    delete point['time']
+    const vars = Object.entries(point)
+    for(const [key, value] of vars){
+      screen_text += "the " + key + " is " + value + " "
+      if(key !== vars[vars.length - 1][0]){
+        screen_text += " and "
+      }
+      else {
+        screen_text = screen_text.slice(0, -1); 
+        screen_text += ". "
+      }
+      
+    }
+  }
+  playMessage(screen_text)
+
+}
+
 useLatLong();
+
+
+let previousTabbedElements = []; // Keep track of previously tabbed elements
+
+// Store initial tab order
+document.querySelectorAll('button').forEach(button => {
+    previousTabbedElements.push(button);
+});
+// Listen for Tab key press
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Tab') {
+      // Restore tabbable state of previously tabbed elements
+      previousTabbedElements.forEach(element => {
+          element.tabIndex = 0;
+      });
+  }
+});

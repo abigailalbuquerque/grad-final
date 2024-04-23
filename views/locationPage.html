@@ -22,12 +22,11 @@
     </div>
     <div class="container left">
       <div id = "weather-data-table" style.display="none">
-        <select id="tableSelect" onchange="changeTableSelect(this.value)">
-          <option value="all">All</option>
-          <option value="temperature">Temperature</option>
-          <option value="precipitation">Probability of Precipitation</option>
-          <option value="wind">Windspeed and Direction</option>
-        </select>
+        <div  tabindex="0" aria-label="Select any of the following buttons to change the table view mode for this app">Select mode</div>
+        <button class="table-button" onclick="changeTableSelect('all')">All</button>
+        <button class="table-button" onclick="changeTableSelect('temperature')">Temperature</button>
+        <button class="table-button" onclick="changeTableSelect('precipitation')">Probability of Precipitation</button>
+        <button class="table-button" onclick="changeTableSelect('wind')" aria-label="Winspeed and Direction. This is the final mode option.">Windspeed and Direction</button>
         <table id="data-table" class="table"></table>
       </div>
       <div id = "current-information">
@@ -69,8 +68,8 @@
         </button>
       </div>
     </div>
-    <button class="other-button" onclick="changeView()" id="viewButton">Table View</button>
-    <button class="other-button" onclick="animation()">Play Animation</button>
+    <!-- <button class="other-button" onclick="changeView()" id="viewButton">Table View</button>
+    <button class="other-button" onclick="animation()">Play Animation</button> -->
     <script src="./locationPage.js"></script>
   </body>
 </html>

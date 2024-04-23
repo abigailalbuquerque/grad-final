@@ -157,6 +157,21 @@ body {
   transition: background-color 0.3s;
   margin-right:5px;
 }
+.table-button {
+  margin-top: 1%;
+  background-color: #36641a;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right:5px;
+}
 
 .back-button:hover {
   background-color: #45a049;
