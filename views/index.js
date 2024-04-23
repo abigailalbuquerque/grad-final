@@ -153,10 +153,10 @@ function initMap() {
       let state = data.results[0].address_components[4].long_name;
 
       //transition
-      /*const transition_el = document.querySelector('.transition');
+      const transition_el = document.querySelector('.transition');
       setTimeout(() => {
           transition_el.classList.add('is-active');
-      }, 500);*/
+      }, 500);
       
 
       const params = new URLSearchParams({
@@ -165,7 +165,7 @@ function initMap() {
         city: city,
         state: state
       });
-      //location.href = './locationPage.html?' + params.toString();
+      location.href = './locationPage.html?' + params.toString();
     })
 
   });
