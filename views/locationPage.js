@@ -42,6 +42,7 @@ function getWeatherGrid(lat, lng) {
     })
     .then((data) => {
       getWeatherData(data.properties.forecastHourly);
+      getWeatherAlert(data.properties.forecastZone.split("/")[5])
       return data.properties.forecastHourly;
     })
     .catch((error) => {
@@ -50,6 +51,7 @@ function getWeatherGrid(lat, lng) {
 }
 
 function getWeatherData(url) {
+  console.log(url)
   fetch(url)
     .then((response) => {
       if (!response.ok) {
@@ -58,14 +60,12 @@ function getWeatherData(url) {
       return response.json();
     })
     .then((data) => {
-      for (let i = 0; i < 72; i++) {
-        weather.push(data.properties.periods[i]);
+      let hour = data.properties.periods[0].startTime.split("T")[1].slice(0,2)
+      for (let i = 0; i<72-hour; i++){
+          weather.push(data.properties.periods[i])
       }
-      console.log(weather);
       renderWeatherCharts(weather);
       const currentWeather = data.properties.periods[0];
-      console.log(currentWeather);
-      // const weatherAlert = data.properties.weatherAlerts[0];
 
       document.getElementById("current-temp").innerHTML =
         currentWeather.temperature + "°F";
@@ -112,9 +112,6 @@ function getWeatherData(url) {
           break;
         }
       }
-
-      console.log("High temperature:", highTemp);
-      console.log("Low temperature:", lowTemp);
 
       document.getElementById("temps").innerHTML =
         "High: " + highTemp + "°F &nbsp;&nbsp;&nbsp;" + "   Low: " + lowTemp + "°F";
@@ -483,5 +480,110 @@ function animationPlay(container,
       .text(title);
   }
 
+
+
+function getWeatherAlert(zone) {
+  const url = "https://api.weather.gov/alerts/active?zone=" + zone
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data)
+      let text = ""
+      for (let i = 0; i<data.features.length; i++){
+          let alert = data.features[i]
+          text += "<p>" + alert.properties.event + ": " + alert.properties.instruction + "</p>"
+      }
+      console.log(data.features.length)
+      if (data.features.length == 0){
+        text = "<p>None</p>"
+      }
+      document.getElementById("weather-alert").innerHTML = text
+      
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+
+function changeTableSelect(sel) {
+  console.log(sel)
+  console.log(typeof(sel))
+  let text = ""
+  if(sel == "all" || typeof(sel) == "undefined"){
+      text = "<table border='1'><tr>"
+      text += "<th>Time</th>"
+      text += "<th>Temperature (F)</th>"
+      text += "<th>Probability of Precipitation (%)</th>"
+      text += "<th>Wind Speed (mph)</th>"
+      text += "<th>Wind Direction</th></tr>"
+      for (let x in weather) {
+          let date = weather[x].startTime.split("T")[0]
+          let time = weather[x].startTime.split("T")[1].slice(0,5)
+          text += "<tr>"
+          text += "<td>" + date + " " + time + "</td>"
+          text += "<td>" + weather[x].temperature + "</td>"
+          text += "<td>" + weather[x].probabilityOfPrecipitation.value + "</td>"
+          text += "<td>" + weather[x].windSpeed + "</td>"
+          text += "<td>" + weather[x].windDirection + "</td>"
+          text += "</tr>"
+      }
+      text += "</table>"
+  }
+  else if(sel == "temperature"){
+      text = "<table border='1'><tr>"
+      text += "<th>Time</th>"
+      text += "<th>Temperature (F)</th>"
+      for (let x in weather) {
+          let date = weather[x].startTime.split("T")[0]
+          let time = weather[x].startTime.split("T")[1].slice(0,5)
+          text += "<tr>"
+          text += "<td>" + date + " " + time + "</td>"
+          text += "<td>" + weather[x].temperature + "</td>"
+          text += "</tr>"
+      }
+      text += "</table>"
+  }
+  else if(sel == "precipitation"){
+      text = "<table border='1'><tr>"
+      text += "<th>Time</th>"
+      text += "<th>Probability of Precipitation (%)</th>"
+      for (let x in weather) {
+          let date = weather[x].startTime.split("T")[0]
+          let time = weather[x].startTime.split("T")[1].slice(0,5)
+          text += "<tr>"
+          text += "<td>" + date + " " + time + "</td>"
+          text += "<td>" + weather[x].probabilityOfPrecipitation.value + "</td>"
+          text += "</tr>"
+      }
+      text += "</table>"
+
+  }
+  else if(sel == "wind"){
+      text = "<table border='1'><tr>"
+      text += "<th>Time</th>"
+      text += "<th>Wind Speed (mph)</th>"
+      text += "<th>Wind Direction</th></tr>"
+      for (let x in weather) {
+          let date = weather[x].startTime.split("T")[0]
+          let time = weather[x].startTime.split("T")[1].slice(0,5)
+          text += "<tr>"
+          text += "<td>" + date + " " + time + "</td>"
+          text += "<td>" + weather[x].windSpeed + "</td>"
+          text += "<td>" + weather[x].windDirection + "</td>"
+          text += "</tr>"
+      }
+      text += "</table>"
+      
+  }
+  document.getElementById("weather-data-table").innerHTML = text;
+  document.getElementById("weather-data-table").style = "block"
+  
+}
 
 useLatLong();
