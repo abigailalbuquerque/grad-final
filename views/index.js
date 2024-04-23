@@ -94,7 +94,7 @@ function initMap() {
         return response.json();
       }).then((data) => {
         let city = data.results[0].address_components[3].long_name;
-        console.log(city);
+        let state = data.results[0].address_components[4].long_name;
 
         //transition
         const transition_el = document.querySelector('.transition');
@@ -106,7 +106,8 @@ function initMap() {
         const params = new URLSearchParams({
           lat: lat,
           lng: lng,
-          city: city
+          city: city,
+          state: state
         });
         //go to weather page
         location.href = './locationPage.html?' + params.toString();
@@ -119,7 +120,6 @@ function initMap() {
   input.className += " page-load-hover";
   input.removeAttribute('readonly'); 
   const searchBox = new google.maps.places.SearchBox(input);
-  console.log(searchBox)
 
   // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
   // Bias the SearchBox results towards current map's viewport.
@@ -175,6 +175,7 @@ function srSpeak(text, priority) {
   el.setAttribute("id", id);
   el.setAttribute("aria-live", priority || "polite");
   el.classList.add("visually-hidden");
+  el.style.fontSize = "0px";
   document.body.appendChild(el);
 
   window.setTimeout(function () {
@@ -185,18 +186,8 @@ function srSpeak(text, priority) {
       document.body.removeChild(document.getElementById(id));
   }, 1000);
 }
-
-// Example usage
-// window.onload = function() {
-//   // Assume some event triggers the message to be updated
-//   window.setTimeout(function () {
-//     const message = "This is a message for the screen reader";
-//     srSpeak(message, "assertive");
-//   }, 3000);
-  
-// };
 window.setTimeout(function () {
-  const message = "This is a message for the screen reader";
+  const message = "To interact with this app, click tab until you hear the writing message. You will be writing down a location to get weather from in the United States.";
   srSpeak(message);
 }, 3000);
 
