@@ -116,6 +116,7 @@ function initMap() {
     
   }
 
+  //search
   const input = document.getElementById("search");
   input.className += " page-load-hover";
   input.removeAttribute('readonly'); 
@@ -124,6 +125,7 @@ function initMap() {
   // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
   // Bias the SearchBox results towards current map's viewport.
   map.addListener("bounds_changed", () => {
+    console.log("bounds_changed");
     searchBox.setBounds(map.getBounds());
   });
   let markers = [];
@@ -138,12 +140,33 @@ function initMap() {
       return;
     }
     addMarker(places[0].geometry.location, map);
-    const params = new URLSearchParams({
-      lat: place.geometry.location.lat(),
-      lng: place.geometry.location.lng()
-    });
-    location.href = './locationPage.html?' + params.toString();
+    
+    fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + place.geometry.location.lat() + "," + place.geometry.location.lng() +"&key=AIzaSyB8bxQOIFjitYbXXjlCMScqdaynYOCfzsY")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    }).then((data) => {
+    
+      let city = data.results[0].address_components[3].long_name;
+      let state = data.results[0].address_components[4].long_name;
 
+      //transition
+      /*const transition_el = document.querySelector('.transition');
+      setTimeout(() => {
+          transition_el.classList.add('is-active');
+      }, 500);*/
+      
+
+      const params = new URLSearchParams({
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+        city: city,
+        state: state
+      });
+      //location.href = './locationPage.html?' + params.toString();
+    })
 
   });
 }
