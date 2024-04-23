@@ -116,7 +116,7 @@ function initMap() {
     
   }
 
-  const input = document.getElementById("pac-input");
+  const input = document.getElementById("search");
   input.className += " page-load-hover";
   input.removeAttribute('readonly'); 
   const searchBox = new google.maps.places.SearchBox(input);
