@@ -510,12 +510,24 @@ function getWeatherAlert(zone) {
     });
 }
 
+function changeView(){
+  if(document.getElementById("viewButton").textContent == "Table View"){
+    changeTableSelect("all")
+    document.getElementById("weather-data-table").style.display = "block"
+    document.getElementById("current-information").style.display = "none"
+    document.getElementById("viewButton").textContent = "Summary View"
+  }
+  else{
+    document.getElementById("weather-data-table").style.display = "none"
+    document.getElementById("current-information").style.display = "block"
+    document.getElementById("viewButton").textContent = "Table View"
+  }
+  // if(document.get)
+}
 
 function changeTableSelect(sel) {
-  console.log(sel)
-  console.log(typeof(sel))
   let text = ""
-  if(sel == "all" || typeof(sel) == "undefined"){
+  if(sel == "all"){
       text = "<table border='1'><tr>"
       text += "<th>Time</th>"
       text += "<th>Temperature (F)</th>"
@@ -581,8 +593,7 @@ function changeTableSelect(sel) {
       text += "</table>"
       
   }
-  document.getElementById("weather-data-table").innerHTML = text;
-  document.getElementById("weather-data-table").style = "block"
+  document.getElementById("data-table").innerHTML = text;
   
 }
 
