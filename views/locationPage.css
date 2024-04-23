@@ -89,7 +89,6 @@ body {
 .topnav h1 {
   margin: 0;
   flex-grow: 1;
-  margin-left: -10%;
   text-align: center;
 }
 
