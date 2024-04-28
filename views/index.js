@@ -110,7 +110,7 @@ function initMap() {
           state: state
         });
         //go to weather page
-        location.href = './locationPage?' + params.toString();
+        location.href = './locationPage.html?' + params.toString();
       })
     
     
