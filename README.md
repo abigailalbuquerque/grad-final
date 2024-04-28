@@ -1,9 +1,9 @@
 Final Project - Interactive Data Visualization Research  
 ===
 
-The link to our project can be found [here](http://dataviscourse.net/2015/assets/process_books/bansal_cao_hou.pdf).
+The github pages for our final project can be found [here](http://dataviscourse.net/2015/assets/process_books/bansal_cao_hou.pdf).
 
-Due to API constraints, the summarization aspect is not able to be public. We have given examples of the summarization on the public repository. Access to our private repository is given to the TAs and the Professor.
+Due to API constraints, the summarization aspect is not able to be put up on a public repository. We have given examples of the summarization on the public repository. Access to our private repository is given to the TAs and the Professor.
 
 Our process book can be found at processbook.pdf. Our screencast can be found [here](https://www.youtube.com/watch?v=xNhqDUb7ZJg). We have also created an updated screen recording showing some of the new features we added based on user feedback that can be found here.
 
