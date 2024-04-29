@@ -2,7 +2,7 @@ Final Project - Interactive Data Visualization Research
 ===
 
 ### Project Website
-We are not able to publicly host our website due to API constraints. We have provided comprehensive screencasts to compensate for the same.
+We are not able to publicly host our website due to API constraints. You can view our application in the screen cast.
 
 ### Process Book
 The process book can be found at processbook.pdf.
@@ -11,7 +11,7 @@ The process book can be found at processbook.pdf.
 Here is a [link](https://github.com/aria-yan/cs573-weather-app) to our private repository. The Professor and TA have been given access. We are not able to post all our code onto this public repository due to API constraints.
 
 ### Project Screen-Casts
-Find our original screen-cast [here](https://www.youtube.com/watch?v=xNhqDUb7ZJg). We also created another screen-cast to compensate for the lack of a website which can be found [here]().
+Find our screen-cast [here](https://www.youtube.com/watch?v=xNhqDUb7ZJg)
 
 Outside Libraries/References
 ---
