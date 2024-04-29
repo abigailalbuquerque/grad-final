@@ -30,6 +30,21 @@ document.getElementById("back").onclick = function () {
 var weather = [];
 let currentDayIndex = 0;
 
+const month_dict={ 
+  "01":"January", 
+  "02":"February", 
+  "03":"March", 
+  "04":"April", 
+  "05":"May", 
+  "06":"June", 
+  "07":"July", 
+  "08":"August", 
+  "09":"September", 
+  "10":"October", 
+  "11":"November", 
+  "12":"December", 
+};
+
 function getWeatherGrid(lat, lng) {
   const apiUrl = "https://api.weather.gov/points/" + lat + "," + lng;
   fetch(apiUrl)
@@ -64,6 +79,7 @@ function getWeatherData(url) {
           weather.push(data.properties.periods[i])
       }
       renderWeatherCharts(weather);
+      dataSummary(weather)
       const currentWeather = data.properties.periods[0];
 
       document.getElementById("current-temp").innerHTML =
@@ -113,6 +129,7 @@ function getWeatherData(url) {
       }
       document.getElementById("temps").innerHTML =
         "High: " + highTemp + "°F &nbsp;&nbsp;&nbsp;" + "   Low: " + lowTemp + "°F";
+      totalText += "The high and low temperatures are " + highTemp + "°F and " + lowTemp + "°F. ";
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -200,7 +217,7 @@ function createChart(
   const svg = graphContainer
     .append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", height + margin.top + margin.bottom + 5)
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -226,11 +243,13 @@ function createChart(
 
   svg
     .append("g")
+    .style("font", "14px times")
     .attr("transform", `translate(0,${height})`)
     .call(d3.axisBottom(x).tickFormat(formatTime));
 
   svg
     .append("g")
+    .style("font", "14px times")
     .call(d3.axisLeft(y))
     .append("text")
     .attr("transform", "rotate(-90)")
@@ -240,7 +259,7 @@ function createChart(
 
   svg
     .append("text")
-    .attr("transform", `translate(${width / 2},${height + margin.top + 10})`)
+    .attr("transform", `translate(${width / 2},${height + margin.top + 15})`)
     .style("text-anchor", "middle")
     .text("Time");
 
@@ -296,7 +315,7 @@ function useLatLong() {
     document.getElementById("city").innerHTML =
     city +", " + state;
   }
-
+  document.getElementById("weather-data-table").style.display = "none"
   getWeatherGrid(lat, lng);
 }
 
@@ -328,6 +347,8 @@ function animation() {
     .slice(currentDayIndex, currentDayIndex + numHours)
     .map((d) => +d.probabilityOfPrecipitation.value);
 
+    animationSummary(timestamps, temperatures, precipitationChances, windSpeeds)
+
     animationPlay(
     container,
     "Temperature",
@@ -350,7 +371,7 @@ function animation() {
     height,
     width,
     margin,
-    "Wind Speed (km/h)",
+    "Wind Speed (mph)",
     false,
     true
   );
@@ -522,16 +543,20 @@ function getWeatherAlert(zone) {
     .then((data) => {
       console.log(data)
       let text = ""
+      let screen_text = ""
       for (let i = 0; i<data.features.length; i++){
           let alert = data.features[i]
           text += "<p>" + alert.properties.event + ": " + alert.properties.instruction + "</p>"
+          screen_text += alert.properties.event + ": " + alert.properties.instruction + ". "
       }
       console.log(data.features.length)
       if (data.features.length == 0){
-        text = "<p>None</p>"
+        text = "<p>No weather alerts!</p>"
       }
       document.getElementById("weather-alert").innerHTML = text
-      
+      if (text != "<p>No weather alerts!</p>"){
+        document.getElementById("weather-alert-box").style.background = "#ffd700"
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -566,14 +591,15 @@ function changeTableSelect(sel) {
       for (let x in weather) {
           let date = weather[x].startTime.split("T")[0]
           let time = weather[x].startTime.split("T")[1].slice(0,5)
-          text += "<tr>"
+          let s_text = tableScreenReader([{"date": date, "time": time, "temperature": weather[x].temperature, "probability of precipitation": weather[x].probabilityOfPrecipitation.value, "wind speed": weather[x].windSpeed, "wind direction": weather[x].windDirection}])
+          text += "<tr tabindex='0' aria-label='" + s_text +"'>"
           text += "<td>" + date + " " + time + "</td>"
           text += "<td>" + weather[x].temperature + "</td>"
           text += "<td>" + weather[x].probabilityOfPrecipitation.value + "</td>"
           text += "<td>" + weather[x].windSpeed + "</td>"
           text += "<td>" + weather[x].windDirection + "</td>"
           text += "</tr>"
-          screen_text.push({"date": date, "time": time, "temperature": weather[x].temperature, "probability of precipitation": weather[x].probabilityOfPrecipitation.value, "wind speed": weather[x].windSpeed, "wind direction": weather[x].windDirection})
+
       }
       text += "</table>"
   }
@@ -584,11 +610,11 @@ function changeTableSelect(sel) {
       for (let x in weather) {
           let date = weather[x].startTime.split("T")[0]
           let time = weather[x].startTime.split("T")[1].slice(0,5)
-          text += "<tr>"
+          let s_text = tableScreenReader([{"date": date, "time": time, "temperature": weather[x].temperature}])
+          text += "<tr tabindex='0' aria-label='" + s_text +"'>"
           text += "<td>" + date + " " + time + "</td>"
           text += "<td>" + weather[x].temperature + "</td>"
           text += "</tr>"
-          screen_text.push({"date": date, "time": time, "temperature": weather[x].temperature})
       }
       text += "</table>"
   }
@@ -599,11 +625,11 @@ function changeTableSelect(sel) {
       for (let x in weather) {
           let date = weather[x].startTime.split("T")[0]
           let time = weather[x].startTime.split("T")[1].slice(0,5)
-          text += "<tr>"
+          let s_text = tableScreenReader([{"date": date, "time": time, "probability of precipitation": weather[x].probabilityOfPrecipitation.value}])
+          text += "<tr tabindex='0' aria-label='" + s_text +"'>"
           text += "<td>" + date + " " + time + "</td>"
           text += "<td>" + weather[x].probabilityOfPrecipitation.value + "</td>"
           text += "</tr>"
-          screen_text.push({"date": date, "time": time, "probability of precipitation": weather[x].probabilityOfPrecipitation.value})
       }
       text += "</table>"
 
@@ -616,30 +642,176 @@ function changeTableSelect(sel) {
       for (let x in weather) {
           let date = weather[x].startTime.split("T")[0]
           let time = weather[x].startTime.split("T")[1].slice(0,5)
-          text += "<tr>"
+          let s_text = tableScreenReader([{"date": date, "time": time, "wind speed": weather[x].windSpeed, "wind direction": weather[x].windDirection}])
+          text += "<tr tabindex='0' aria-label='" + s_text +"'>"
           text += "<td>" + date + " " + time + "</td>"
           text += "<td>" + weather[x].windSpeed + "</td>"
           text += "<td>" + weather[x].windDirection + "</td>"
           text += "</tr>"
-          screen_text.push({"date": date, "time": time, "wind speed": weather[x].windSpeed, "wind direction": weather[x].windDirection})
       }
       text += "</table>"
       
   }
   document.getElementById("data-table").innerHTML = text;
-  tableScreenReader(screen_text)
   
 }
 
+  
+function mode(array)
+{
+    if(array.length == 0)
+        return null;
+    var modeMap = {};
+    var maxEl = array[0], maxCount = 1;
+    for(var i = 0; i < array.length; i++)
+    {
+        var el = array[i];
+        if(modeMap[el] == null)
+            modeMap[el] = 1;
+        else
+            modeMap[el]++;  
+        if(modeMap[el] > maxCount)
+        {
+            maxEl = el;
+            maxCount = modeMap[el];
+        }
+    }
+    return maxEl;
+}
+
+function min(array) {
+    if (array.length === 0) {
+    return undefined; // Return undefined for an empty array
+    }
+    
+    let min = array[0];
+    for (let i = 1; i < array.length; i++) {
+    if (array[i] < min) {
+        min = array[i];
+    }
+    }
+    
+    return min;
+}
+
+function max(array) {
+    if (array.length === 0) {
+    return undefined; // Return undefined for an empty array
+    }
+    
+    let max = array[0];
+    for (let i = 1; i < array.length; i++) {
+    if (array[i] > max) {
+        max = array[i];
+    }
+    }
+    
+    return max;
+}
+
+function animationSummary(time, temperature, rain, windspeed){
+  let data = {
+      model: "gpt-3.5-turbo",
+      messages: [
+          { role: "system", content: "You are an accessibility friendly weather reporter." },
+          { role: "user", content: "Describe the temperature movement in concise sentences. Time: " +  JSON.stringify(time) + " Temperature: " + JSON.stringify(temperature)},
+
+      ],
+      temperature: 0
+  };
+
+  console.log(data)
+
+  data = {
+    model: "gpt-3.5-turbo",
+    messages: [
+        { role: "system", content: "You are an accessibility friendly weather reporter." },
+        { role: "user", content: "Describe the change in windspeed in concise sentences. Time: " +  JSON.stringify(time) + " Windspeed: " + JSON.stringify(windspeed)},
+
+    ],
+    temperature: 0
+  };
+
+  console.log(data)
+
+  data = {
+    model: "gpt-3.5-turbo",
+    messages: [
+        { role: "system", content: "You are an accessibility friendly weather reporter." },
+        { role: "user", content: "Describe the change in rain in concise sentences. Time: " +  JSON.stringify(time) + " Probability of Precipitation: " + JSON.stringify(rain)},
+
+    ],
+    temperature: 0
+  };
+  console.log(data)
+}
+
+function dataSummary(weather) {
+  let text = ""
+  let currentDate = weather[0].startTime.split("T")[0]
+  dates = [currentDate]
+  forecasts = []
+  directions = []
+  minTemp = []
+  maxTemp = []
+  rain = []
+  speeds = []
+  currForecasts = []
+  currDirections = []
+  currTemperatures = []
+  currSpeeds = []
+  currRain = []
+  for (let x in weather) {
+      currForecasts.push(weather[x].shortForecast)
+      currDirections.push(weather[x].windDirection)
+      currTemperatures.push(weather[x].temperature)
+      currSpeeds.push(parseInt(weather[x].windSpeed.split(" ")[0]))
+      currRain.push(parseInt(weather[x].probabilityOfPrecipitation.value))
+      if(currentDate != weather[x].startTime.split("T")[0]){
+          currentDate = weather[x].startTime.split("T")[0]
+          forecasts.push(mode(currForecasts))
+          directions.push(mode(currDirections))
+          rain.push(max(currRain))
+          minTemp.push(min(currTemperatures))
+          maxTemp.push(max(currTemperatures))
+          speeds.push(currSpeeds.reduce((a, b) => a + b) / currSpeeds.length)
+          currForecasts = []
+          currDirections = []
+          currTemperatures = []
+          currSpeeds = []
+          currRain = []
+          dates.push(currentDate)
+      }
+  }
+  forecasts.push(mode(currForecasts))
+  directions.push(mode(currDirections))
+  rain.push(max(currRain))
+  minTemp.push(min(currTemperatures))
+  maxTemp.push(max(currTemperatures))
+  speeds.push(currSpeeds.reduce((a, b) => a + b) / currSpeeds.length)
+
+  for(let i = 0; i<dates.length; i++){
+      let month = dates[i].split("-")[1]
+      let date = dates[i].split("-")[2]
+      text += month_dict[month] + " " + date
+      text += forecasts[i]
+      text += " with highs of " + maxTemp[i] + " and lows of " + minTemp[i]
+      text += ". The highest chance of rain is " + rain[i]
+      text += " with an average windspeed of " + speeds[i]
+      text += " in the direction of " + directions[i] +". "
+  }
+}
+
 function tableScreenReader(data){
-  let screen_text = "You are now in the table view page. In a bit, information will be said about the selected weather location. To change how much information is viewed, navigate via tab to the mode buttons to select what info you want. "
+  let screen_text = ""
+  // let screen_text = "You are now in the table view page. In a bit, information will be said about the selected weather location. To change how much information is viewed, navigate via tab to the mode buttons to select what info you want. "
   let currentDate = undefined;
   for(let point of data){
     const date = point['date']
     const time = point['time'].split(":")[0]
     if (date !== currentDate) {
       currentDate = date
-      screen_text += "Next, on " + date + " at " + time + " "
+      screen_text += "On " + date + " at " + time + " "
     }
     else {
       screen_text += "Next, at " + time + " "
@@ -659,7 +831,7 @@ function tableScreenReader(data){
       
     }
   }
-  playMessage(screen_text)
+  return screen_text
 
 }
 

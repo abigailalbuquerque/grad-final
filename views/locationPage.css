@@ -6,6 +6,7 @@ body {
 .container {
   background-color: #fafafa;
   height: 85%;
+  max-height: 85%;
   width: 40%;
   position: fixed;
   top: 10%;
@@ -16,26 +17,6 @@ body {
   border-width: 1px;
   border-radius: 5px;
 }
-
-.instructions {
-  background-color: #fafafa;
-  height: 85%;
-  width: 10%;
-  position: fixed;
-  top: 10%;
-  bottom: 20%;
-  padding-left: 1%;
-  border: black;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 5px;
-}
-
-.instructions h3{
-  margin-right: 20px;
-  text-align:center;
-}
-
 
 .weather-box {
   display: flex;
@@ -49,10 +30,15 @@ body {
   border-radius: 10px;
   margin-top: 5%;
   margin-bottom: 30px;
+  font-size: max(12px, 1em);
+}
+
+#temps{
+  font-size: max(12px, 1em);
 }
 
 .weather-alert h2, .weather-box h2, .summary h2{
-  font-size: 2em;
+  font-size: calc(12px + 1.5vw);
   margin-bottom: 10px;
 }
 
@@ -86,20 +72,31 @@ body {
   background-color: none;
   border-radius: 10px;
   margin-bottom: 30px;
+  font-size: max(16px, 1em);
 }
 
 .left {
-  left: 15%;
+  left: 1.5%;
+  overflow-y: auto;
 }
 
 .right {
-  right: 1.5%;
+  right: 15%;
+  overflow-y: auto;
 }
 
 .column {
   flex: 50%;
-  align-content: space-around;
-  vertical-align: middle;
+}
+
+.columnalert {
+  flex: 0%;
+}
+
+.columnsummary {
+  flex: 50%;
+  margin-left: 10px;
+  text-align: left;
 }
 
 .topnav{
@@ -118,11 +115,15 @@ body {
   flex-direction: row;
   align-items: center;
   width: 90%;
-  height: 20%;
-  background-color: #ffd700;
+  height: 10%;
+  background-color: lightgray;
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 30px;
+}
+
+#weather-alert{
+  font-size:16px;
 }
 
 #graphContainer {
@@ -141,6 +142,7 @@ body {
   border-style: solid;
   border-radius: 10px;
   width: 80%;
+  font-size: max(12px, 1em);
 }
 
 .buttons {
@@ -192,12 +194,23 @@ body {
   margin-right:5px;
 }
 
-.anim-table-button{
-  margin-left: 11%;
-  margin-top: 1%;
-}
-
-
 .back-button:hover {
   background-color: #45a049;
+}
+
+#data-table {
+  margin-top:1%;
+  margin-bottom:0.5%;
+  width: 90%;
+  border-collapse: collapse;
+}
+
+#data-table th, #data-table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+#data-table th {
+  background-color: #f2f2f2;
 }
