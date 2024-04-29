@@ -1,17 +1,23 @@
 Final Project - Interactive Data Visualization Research  
 ===
 
-The github pages for our final project can be found [here](http://dataviscourse.net/2015/assets/process_books/bansal_cao_hou.pdf).
+### Project Website
+We are not able to publicly host our website due to API constraints. We have provided comprehensive screencasts to compensate for the same.
 
-Due to API constraints, the summarization aspect is not able to be put up on a public repository. We have given examples of the summarization on the public repository. Access to our private repository is given to the TAs and the Professor.
+### Process Book
+The process book can be found at processbook.pdf.
 
-Our process book can be found at processbook.pdf. Our screencast can be found [here](https://www.youtube.com/watch?v=xNhqDUb7ZJg). We have also created an updated screen recording showing some of the new features we added based on user feedback that can be found here.
+### Project Repository
+Here is a [link](https://github.com/aria-yan/cs573-weather-app) to our private repository. The Professor and TA have been given access. We are not able to post all our code onto this public repository due to API constraints.
 
-GitHub Details
+### Project Screen-Casts
+Find our original screen-cast [here](https://www.youtube.com/watch?v=xNhqDUb7ZJg). We also created another screen-cast to compensate for the lack of a website which can be found [here]().
+
+Outside Libraries/References
 ---
-
-- Fork the repo. You now have a copy associated with your username.
-- Make changes to index.html to fulfill the project requirements. 
-- Make sure your "master" branch matches your "gh-pages" branch. See the GitHub Guides referenced above if you need help.
-- Edit the README.md with a link to your gh-pages or other external site: for example http://YourUsernameGoesHere.github.io/DataVisFinal/index.html
-- To submit, make a [Pull Request](https://help.github.com/articles/using-pull-requests/) on the original repository.
+- OpenAI API: https://platform.openai.com/docs/guides/text-generation
+- Google Map API: https://developers.google.com/maps/documentation/javascript/overview
+- Google Places API: https://developers.google.com/maps/documentation/javascript/places
+- Animating Line Charts: https://medium.com/@louisemoxy/create-a-d3-line-chart-animation-336f1cb7dd61
+- Accessibility Tool ARIA: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label
+- Volume Control: https://stackoverflow.com/questions/37115491/how-to-set-volume-of-audio-object
