@@ -1,0 +1,123 @@
+/**
+ * @license
+ * Copyright 2019 Google LLC. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+ #map {
+  height: 94%;
+  width: 100%;
+}
+
+/* 
+ * Optional: Makes the sample page fill the window. 
+ */
+html,
+body {
+  height: 90%;
+  margin: 0;
+  padding: 0;
+}
+
+.transition.slide{
+  position: fixed;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 100%;
+  z-index: 101;
+  background-color: white;
+  transition: .5s ease-out;
+}
+
+.transition.slide.is-active{
+  top:0;
+}
+
+.transition.fade{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-color: gray;
+  opacity: 0;
+  transition: .5s ease-out;
+}
+
+.transition.fade.is-active{
+  opacity:1;
+  z-index: 101;
+}
+
+h1, h2{
+  margin-top: 8px;
+  margin-right: 16px;
+  margin-left: 16px;
+  margin-bottom: 8px;
+}
+
+/* Add a black background color to the top navigation bar */
+.searchbar {
+  overflow: hidden;
+  background-color: #1a1c70;
+}
+
+/* Center search bar */
+#search{
+  margin: 0 auto;
+  display: block;
+  padding: 6px;
+  border: none;
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: 17px;
+}
+
+/* Style the links inside the navigation bar */
+/*.searchbar a {
+  margin: 0 auto;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}*/
+
+.input {
+  display:block;
+}
+
+/* Change the color of links on hover */
+/*.searchbar a:hover {
+  background-color: #ddd;
+  color: black;
+}*/
+
+/* Style the "active" element to highlight the current page */
+/*.searchbar a.active {
+  background-color: #2196F3;
+  color: white;
+}*/
+
+/* When the screen is less than 600px wide, stack the links and the search field vertically instead of horizontally */
+@media screen and (max-width: 600px) {
+  .searchbar a, .searchbar input[type=text] {
+    margin: 0 auto;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .searchbar input[type=text] {
+    border: 1px solid #ccc;
+  }
+}

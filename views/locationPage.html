@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="locationPage.css" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>Location Page</title>
+  </head>
+  <body>
+    <div class="transition fade is-active"></div>
+    <div class="topnav">
+      <button
+      class="other-button"
+      id="back"
+      onclick="location.href = './index.html'"
+      tabindex = "0">
+      Back
+    </button>
+    <button tabindex= "0" class="other-button" onclick="changeView()" id="viewButton">Table View</button>
+    <button tabindex= "0" class="other-button" onclick="animation()">Play Animation</button>
+    <h1 id="city" tabindex="0"></h1>
+    </div>
+    <div class="container left">
+      <div id = "weather-data-table" style ="display:none; overflow-y:auto;">
+        <div  tabindex="0" aria-label="Select any of the following buttons to change the table view mode for this app">Select mode</div>
+        <button class="table-button" onclick="changeTableSelect('all')">All</button>
+        <button class="table-button" onclick="changeTableSelect('temperature')">Temperature</button>
+        <button class="table-button" onclick="changeTableSelect('precipitation')">Probability of Precipitation</button>
+        <button class="table-button" onclick="changeTableSelect('wind')" aria-label="Windspeed and Direction. This is the final mode option.">Windspeed and Direction</button>
+        <table id="data-table" class="table"></table>
+      </div>
+      <div id = "current-information">
+        <div tabindex="0" class="weather-box" id="weather-box">
+          <h2>Current Weather</h2>
+          <div class="column">
+            <p id="current-temp"></p>
+            <div>
+              <p id="temps"></p>
+            </div>
+            <p id="condition"></p>
+            <p id="wind-speed"></p>
+            <p id="wind-direction"></p>
+          </div>
+          <div class="column">
+            <div class="weather-image" id="weather-image"></div>
+          </div>
+        </div>
+        <div tabindex="0" class="weather-alert" id="weather-alert-box">
+          <h2>Weather Alert</h2>
+          <div class="column"></div>
+            <p id="weather-alert"></p>
+          <div class="columnalert"></div>
+        </div>
+        <div tabindex="0" class="summary" id="summary-box">
+          <h2>Summary</h2>
+          <div class="columnsummary">
+            <p id="summary">Ideally, we'd show you a summary relevant to the weather information on the page. However, we are not able to publish a github page using the openAI API on the backend. However, here is an example summary: The weather will be mostly clear with a high of 62 and a low of 51. There is a slight chance of rain (5%) and the average wind speed will be 5 mph from the northwest. On April 29, expect mostly sunny skies with a high of 72 and a low of 44. There is a higher chance of rain (11%) and the average wind speed will be 7.3 mph from the west. April 30 will be mostly sunny with a high of 81 and a low of 55. There is a high chance of rain (63%) and the average wind speed will be 18 mph from the south.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container right" id="graphContainer">
+      <div class="buttons">
+        <button class="other-button" onclick="scrollRight()">Next Day</button>
+        <button class="other-button" onclick="scrollBack()">
+          Previous Day
+        </button>
+      </div>
+      <div id = "weatherAnimationSummary">
+        <p id = "temperatureSummary"></p>
+        <p id = "windSpeedSummary"></p>
+        <p id = "rainSummary"></p>
+      </div>
+    </div>
+
+    <script src="./locationPage.js"></script>
+    <!-- <button class="other-button" onclick="changeView()" >Table View</button>
+    <button class="other-button" onclick="animation()">Play Animation</button> -->
+    
+  </body>
+</html>
